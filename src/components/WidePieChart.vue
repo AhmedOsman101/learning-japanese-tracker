@@ -48,6 +48,13 @@ const option = ref<ECBasicOption>({
     trigger: "item",
     formatter: "{b}: {c} ({d}%)",
   },
+
+  legend: {
+    orient: "vertical",
+    left: "center",
+    top: "bottom",
+    data: data1.map((item) => item.name),
+  },
   series: [
     {
       name: title1,
