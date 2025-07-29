@@ -5,3 +5,9 @@
     @apply bg-zinc-800 text-gray-100;
   }
 }
+
+svg text[stroke-width="2"] {
+  stroke-width: 0 !important;
+  font-size: 0.8rem !important;
+  font-weight: 500 !important;
+}
