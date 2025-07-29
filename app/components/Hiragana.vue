@@ -12,5 +12,5 @@
 
 <script setup lang="ts">
 import PieChart from "./PieChart.vue";
-import { hiragana } from "../data/kani.json";
+import { hiragana } from "~/data/kani.json";
 </script>

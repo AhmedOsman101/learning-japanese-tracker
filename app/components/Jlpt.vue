@@ -23,5 +23,5 @@
 
 <script setup lang="ts">
 import WidePieChart from "./WidePieChart.vue";
-import { levels } from "../data/jlpt.json";
+import { levels } from "~/data/jlpt.json";
 </script>
