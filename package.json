@@ -8,9 +8,9 @@
     "generate": "nuxt generate",
     "preview": "nuxt preview",
     "postinstall": "nuxt prepare",
-    "lint": "biome lint .",
-    "format": "biome check --fix .",
-    "format:unsafe": "biome check --fix --unsafe ."
+    "lint": "biome lint --config-path='./biome.json' .",
+    "format": "biome check --config-path='./biome.json' --fix .",
+    "format:unsafe": "biome check --fix --config-path='./biome.json' --unsafe ."
   },
   "dependencies": {
     "@nuxt/ui": "3.3.0",
