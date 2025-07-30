@@ -8,8 +8,9 @@ const PASSWORD = process.env.PASSWORD;
 
 export default defineEventHandler(async event => {
   const body = await readBody<{
-    content: string;
+    increment: number;
     file: "jlpt" | "kani";
+    field: string;
     password: string;
   }>(event);
 
@@ -40,7 +41,7 @@ export default defineEventHandler(async event => {
     );
   }
 
-  const apiUrl = `https://api.github.com/repos/${OWNER}/${REPO}/contents/data/${body.file}.json`;
+  const apiUrl = `https://api.github.com/repos/${OWNER}/${REPO}/contents/public/data/${body.file}.json`;
 
   // Get existing file to retrieve `sha`
   const existing = (await $fetch(apiUrl, {
@@ -50,7 +51,18 @@ export default defineEventHandler(async event => {
     },
   }).catch(() => null)) as any;
 
-  const contentEncoded = Buffer.from(body.content).toString("base64");
+  const websiteUrl =
+    process.env.NODE_ENV === "development"
+      ? "http://localhost:3000"
+      : process.env.NUXT_PUBLIC_SITE_URL;
+
+  const content = await fetch(`${websiteUrl}/data/${body.file}.json`).then(
+    resp => resp.json()
+  );
+
+  const contentEncoded = Buffer.from(
+    JSON.stringify(transformContent(body.field, body.increment, content))
+  ).toString("base64");
 
   const res = await $fetch(apiUrl, {
     method: "PUT",
@@ -70,3 +82,21 @@ export default defineEventHandler(async event => {
 
   return { message: "Progress updated successfully 🎉" };
 });
+
+function transformContent(field: string, increment: number, content: any) {
+  const parts = field.split(".");
+  const newContent = content;
+  console.log(content);
+
+  switch (parts[0]) {
+    case "hiragana":
+    case "katakana":
+      newContent[parts[0]].memorized += increment;
+      break;
+    default:
+      newContent[parts[0]][parts[1]].memorized += increment;
+      break;
+  }
+
+  return newContent;
+}
