@@ -129,7 +129,7 @@
         "noInvalidUseBeforeDeclaration": "error",
         "noSelfAssign": "on",
         "noUndeclaredDependencies": "off",
-        "noUndeclaredVariables": "error",
+        "noUndeclaredVariables": "off",
         "noUnreachable": "warn",
         "noUnreachableSuper": "warn",
         "noUnusedLabels": "error",

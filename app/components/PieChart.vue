@@ -1,7 +1,7 @@
 <template>
-  <v-chart
-    class="chart"
-    :option="option" />
+  <ClientOnly>
+    <v-chart class="chart" :option="option" />
+  </ClientOnly>
 </template>
 
 <script setup lang="ts">

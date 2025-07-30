@@ -1,11 +1,7 @@
 <script setup lang="ts">
-import { isActive } from "@/utils";
-import { ref, onMounted, onBeforeUnmount } from "vue";
+import { isActive } from "shared/utils";
 
-const currentHash = ref(window.location.hash);
-function updateHash() {
-  currentHash.value = window.location.hash;
-}
+const currentHash = useHash();
 
 const links = () => [
   {
@@ -26,14 +22,6 @@ const links = () => [
     active: isActive("#jlpt", currentHash.value),
   },
 ];
-
-onMounted(() => {
-  window.addEventListener("hashchange", updateHash);
-});
-
-onBeforeUnmount(() => {
-  window.removeEventListener("hashchange", updateHash);
-});
 </script>
 
 <template>
@@ -50,7 +38,7 @@ onBeforeUnmount(() => {
 </template>
 
 <style>
-@reference "../assets/index.css";
+@reference "../assets/css/main.css";
 
 .active {
   @apply border-emerald-400 text-emerald-400;
