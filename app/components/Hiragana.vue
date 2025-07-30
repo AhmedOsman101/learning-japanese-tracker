@@ -4,13 +4,18 @@
       { name: 'Memorized', value: hiragana.memorized },
       {
         name: 'Remaining',
-        value: hiragana.total - hiragana.memorized,
+        value: remaining,
       },
     ]"
     title="Hiragana" />
+  <Edit
+    class="w-full"
+    file="kani"
+    field="hiragana"
+    :remaining />
 </template>
 
 <script setup lang="ts">
-import PieChart from "./PieChart.vue";
-import { hiragana } from "~/data/kani.json";
+import { hiragana } from "~/public/data/kani.json";
+const remaining = ref(hiragana.total - hiragana.memorized);
 </script>

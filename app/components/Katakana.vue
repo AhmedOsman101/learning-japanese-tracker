@@ -4,13 +4,19 @@
       { name: 'Memorized', value: katakana.memorized },
       {
         name: 'Remaining',
-        value: katakana.total - katakana.memorized,
+        value: remaining,
       },
     ]"
     title="Katakana" />
+  <Edit
+    class="w-full"
+    file="kani"
+    field="katakana"
+    :remaining />
 </template>
 
 <script setup lang="ts">
-import PieChart from "./PieChart.vue";
-import { katakana } from "~/data/kani.json";
+import { katakana } from "~/public/data/kani.json";
+
+const remaining = ref(katakana.total - katakana.memorized);
 </script>
