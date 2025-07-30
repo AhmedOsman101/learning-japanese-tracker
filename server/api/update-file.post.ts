@@ -1,10 +1,11 @@
 import { Err } from "lib-result";
-
-const OWNER = "AhmedOsman101";
-const REPO = "learning-japanese-tracker";
-const BRANCH = "main";
-const GITHUB_TOKEN = process.env.GITHUB_TOKEN;
-const PASSWORD = process.env.PASSWORD;
+import {
+  BRANCH,
+  GITHUB_API_URL,
+  GITHUB_RAW_URL,
+  GITHUB_TOKEN,
+  PASSWORD,
+} from "~/shared/constants";
 
 export default defineEventHandler(async event => {
   const body = await readBody<{
@@ -41,7 +42,7 @@ export default defineEventHandler(async event => {
     );
   }
 
-  const apiUrl = `https://api.github.com/repos/${OWNER}/${REPO}/contents/public/data/${body.file}.json`;
+  const apiUrl = `${GITHUB_API_URL}/data/${body.file}.json`;
 
   // Get existing file to retrieve `sha`
   const existing = (await $fetch(apiUrl, {
@@ -51,12 +52,7 @@ export default defineEventHandler(async event => {
     },
   }).catch(() => null)) as any;
 
-  const websiteUrl =
-    process.env.NODE_ENV === "development"
-      ? "http://localhost:3000"
-      : process.env.NUXT_PUBLIC_SITE_URL;
-
-  const content = await fetch(`${websiteUrl}/data/${body.file}.json`).then(
+  const content = await fetch(`${GITHUB_RAW_URL}/data/${body.file}.json`).then(
     resp => resp.json()
   );
 
