@@ -1,6 +1,8 @@
 <template>
   <h1 class="text-2xl text-center font-bold">JLPT Levels</h1>
-  <div v-for="(level, index) in levels">
+  <div
+    v-if="!pending"
+    v-for="(level, index) in levels">
     <WidePieChart
       :key="index"
       :title1="`${index} Vocab`"
@@ -33,8 +35,35 @@
         :remaining="level.kanji.total - level.kanji.memorized" />
     </div>
   </div>
+
+  <Loading v-else />
 </template>
 
 <script setup lang="ts">
-import levels from "~/public/data/jlpt.json";
+import { GITHUB_RAW_URL } from "~/shared/constants";
+const { data, pending } = useFetch(`${GITHUB_RAW_URL}/data/jlpt.json`, {
+  transform: JSON.parse,
+  lazy: true,
+});
+
+type Level = {
+  vocab: { memorized: number; total: number };
+  kanji: { memorized: number; total: number };
+};
+type JLPT = {
+  N1: Level;
+  N2: Level;
+  N3: Level;
+  N4: Level;
+  N5: Level;
+};
+const levels = ref<JLPT>();
+
+watch(
+  data,
+  (val) => {
+    if (val) levels.value = val;
+  },
+  { immediate: true }
+);
 </script>
