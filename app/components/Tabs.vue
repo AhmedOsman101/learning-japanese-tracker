@@ -38,7 +38,7 @@ const links = () => [
 </template>
 
 <style>
-@reference "../assets/css/main.css";
+@reference "@/assets/css/main.css";
 
 .active {
   @apply border-emerald-400 text-emerald-400;
